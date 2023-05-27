@@ -22,40 +22,41 @@ function writeToLog(operationIdentifier, prevResult, operationNumber) {
     console.log(logEntries);
 }
 
-function add() {
+function calculateResult(calculationType) {
     const enteredNumber = getUserNumberInput();
     const initialResult = currentResult;
-    currentResult += parseInt(enteredNumber);
-    createAndWriteOutput('+', initialResult, enteredNumber);
-    writeToLog('ADD', initialResult, enteredNumber);
+    let mathOperator;
+    if (calculationType === 'ADD') {
+        currentResult += parseInt(enteredNumber);
+        mathOperator = '+';
+    } else if (calculationType === 'SUBTRACT') {
+        currentResult -= parseInt(enteredNumber);
+        mathOperator = '-';
+    } else if (calculationType === 'MULTIPLY') {
+        currentResult *= parseInt(enteredNumber);
+        mathOperator = '*';
+    } else if (calculationType === 'DIVIDE') {
+        currentResult /= parseInt(enteredNumber);
+        mathOperator = '/';
+    }
+    
+    createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+    writeToLog(calculationType, initialResult, enteredNumber);
 }
 
-function subtract() {
-    const enteredNumber = getUserNumberInput();
-    const initialResult = currentResult;
-    currentResult -= parseInt(enteredNumber);
-    createAndWriteOutput('-', initialResult, enteredNumber);
-    writeToLog('SUBTRACT', initialResult, enteredNumber);
+function doOperation(calculationType) {
+    calculateResult(calculationType);
 }
 
-function multiply() {
-    const enteredNumber = getUserNumberInput();
-    const initialResult = currentResult;
-    currentResult *= parseInt(enteredNumber);
-    createAndWriteOutput('*', initialResult, enteredNumber);
-    writeToLog('MULTIPLY', initialResult, enteredNumber);
-}
-
-function divide() {
-    const enteredNumber = getUserNumberInput();
-    const initialResult = currentResult;
-    currentResult /= parseInt(enteredNumber);
-    createAndWriteOutput('/', initialResult, enteredNumber);
-    writeToLog('DIVIDE', initialResult, enteredNumber);
-}
-
-
-addBtn.addEventListener('click', add);
-subtractBtn.addEventListener('click', subtract);
-multiplyBtn.addEventListener('click', multiply);
-divideBtn.addEventListener('click', divide);
+addBtn.addEventListener('click', () => {
+    doOperation('ADD');
+});
+subtractBtn.addEventListener('click', () => {
+    doOperation('SUBTRACT');
+});
+multiplyBtn.addEventListener('click', () => {
+    doOperation('MULTIPLY');
+});
+divideBtn.addEventListener('click', () => {
+    doOperation('DIVIDE');
+});
